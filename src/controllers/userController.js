@@ -1,7 +1,6 @@
 import * as Yup from 'yup';
 import mongoose from 'mongoose';
 
-
 const User = mongoose.model('User');
 
 class UserController {
@@ -14,8 +13,7 @@ class UserController {
       cpf: Yup.number().required(),
       password: Yup.string()
         .required()
-        .min(6),
-
+        .min(6)
     });
     if (!(await schema.isValid(req.body))) {
       return res.status(400).json({ error: ' Validation fails' });
@@ -33,22 +31,21 @@ class UserController {
   async update(req, res) {
     const data = req.body;
     const schema = Yup.object().shape({
-      email: Yup.string()
-        .email(),
+      email: Yup.string().email(),
       cpf: Yup.number().required(),
       password: Yup.string()
         .required()
         .min(6),
       confirmpassword: Yup.string().when('password', (password, field) =>
         password ? field.required().oneOf([Yup.ref('password')]) : field
-      ),
+      )
     });
     if (!(await schema.isValid(data))) {
       return res.status(400).json({ error: ' Validation fails' });
     }
     const { email, oldPassword } = data;
-
-    const user = await User.findOne({ "email": email }).exec()
+    
+    const user = await User.findOne({ email }).exec();
     if (!user) {
       return res.status(400).json({ error: ' user dont exist' });
     }
@@ -57,12 +54,8 @@ class UserController {
     }
     await user.update(data);
     return res.json({
-      "alterado": true
-    })
+      alterado: true
+    });
   }
-
-
-
 }
 export default new UserController();
-

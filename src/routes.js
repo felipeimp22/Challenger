@@ -2,6 +2,9 @@ import { Router } from 'express';
 
 import UserController from './controllers/userController';
 import UserCompany from './controllers/UserCompany';
+import SessionController from './controllers/SessionController';
+
+import authMiddleware from './middlewares/auth';
 
 const routes = new Router();
 
@@ -10,11 +13,14 @@ routes.get('/', (req, res) => {
 });
 
 routes.post('/users', UserController.store);
+routes.post('/company', UserCompany.store);
+routes.post('/sessions', SessionController.store);
+
+routes.use(authMiddleware);
+
 routes.put('/usersUpdate', UserController.update);
 
-
 routes.get('/company', UserCompany.index);
-routes.post('/company', UserCompany.store);
 routes.put('/company', UserCompany.update);
 routes.put('/company/:id', UserCompany.delete);
 
