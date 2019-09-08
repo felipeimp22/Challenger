@@ -10,10 +10,13 @@ routes.get('/', (req, res) => {
 });
 
 routes.post('/users', UserController.store);
+routes.put('/usersUpdate', UserController.update);
+
 
 routes.get('/company', UserCompany.index);
 routes.post('/company', UserCompany.store);
 routes.put('/company', UserCompany.update);
 routes.put('/company/:id', UserCompany.delete);
+
 
 module.exports = routes;

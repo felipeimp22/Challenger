@@ -1,10 +1,11 @@
 import * as Yup from 'yup';
 import mongoose from 'mongoose';
-import axios from 'axios';
+
 
 const User = mongoose.model('User');
 
 class UserController {
+  async
   async store(req, res) {
     const schema = Yup.object().shape({
       email: Yup.string()
@@ -14,7 +15,7 @@ class UserController {
       password: Yup.string()
         .required()
         .min(6),
-      adm: Yup.bool()
+
     });
     if (!(await schema.isValid(req.body))) {
       return res.status(400).json({ error: ' Validation fails' });
@@ -29,21 +30,39 @@ class UserController {
     return res.json(user);
   }
 
-  getAp(req, res) {
-    // console.log(gitApi)
+  async update(req, res) {
+    const data = req.body;
+    const schema = Yup.object().shape({
+      email: Yup.string()
+        .email(),
+      cpf: Yup.number().required(),
+      password: Yup.string()
+        .required()
+        .min(6),
+      confirmpassword: Yup.string().when('password', (password, field) =>
+        password ? field.required().oneOf([Yup.ref('password')]) : field
+      ),
+    });
+    if (!(await schema.isValid(data))) {
+      return res.status(400).json({ error: ' Validation fails' });
+    }
+    const { email, oldPassword } = data;
+
+    const user = await User.findOne({ "email": email }).exec()
+    if (!user) {
+      return res.status(400).json({ error: ' user dont exist' });
+    }
+    if (oldPassword && !(await user.checkPassword(oldPassword))) {
+      return res.status(401).json({ error: ' password does not match' });
+    }
+    await user.update(data);
+    return res.json({
+      "alterado": true
+    })
   }
+
+
+
 }
 export default new UserController();
 
-//------------------------------------------------------------------------------
-// ------------------------------Insomnia Body-----------------------------------
-
-/**
- * createUser:
-  {
-	"email":"dsad@dsda.com",
-	"cpf": "1234155",
-	"password":"dasdadas",
-	"adm": false
-}
- */
