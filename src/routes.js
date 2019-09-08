@@ -1,7 +1,7 @@
 import { Router } from 'express';
 
 import UserController from './controllers/userController';
-import UserCompany from './controllers/UserCompany';
+import UserCompany from './controllers/userCompany';
 import SessionController from './controllers/SessionController';
 
 import authMiddleware from './middlewares/auth';
@@ -23,6 +23,5 @@ routes.put('/usersUpdate', UserController.update);
 routes.get('/company', UserCompany.index);
 routes.put('/company', UserCompany.update);
 routes.put('/company/:id', UserCompany.delete);
-
 
 module.exports = routes;
