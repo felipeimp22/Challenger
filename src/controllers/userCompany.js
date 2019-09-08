@@ -1,7 +1,9 @@
 import * as Yup from 'yup';
 import mongoose from 'mongoose';
+import bcrypt from 'bcryptjs';
 
 const Company = mongoose.model('Company');
+const User = mongoose.model('User');
 
 class UserCompany {
   async index(req, res) {
@@ -25,7 +27,8 @@ class UserCompany {
     }
     const { email, password } = req.body;
     const CompanyExists = await Company.findOne({ email });
-    if (CompanyExists) {
+    const UserExists = await User.findOne({ email });
+    if (CompanyExists || UserExists) {
       return res.status(400).json({ error: 'Company already exists' });
     }
 
