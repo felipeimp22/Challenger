@@ -1,6 +1,5 @@
 import * as Yup from 'yup';
 import mongoose from 'mongoose';
-import bcrypt from 'bcryptjs';
 
 const Company = mongoose.model('Company');
 
@@ -79,11 +78,6 @@ class UserCompany {
     await Company.updateOne(company);
 
     return res.json({ message: 'Account deleted success!' });
-  }
-
-  async checkPassword(email, password) {
-    const user = await Company.findOne({ email });
-    return bcrypt.compare(password, user.password);
   }
 }
 export default new UserCompany();

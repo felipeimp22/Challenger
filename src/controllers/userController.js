@@ -1,6 +1,5 @@
 import * as Yup from 'yup';
 import mongoose from 'mongoose';
-import bcrypt from 'bcryptjs';
 
 const User = mongoose.model('User');
 
@@ -56,11 +55,6 @@ class UserController {
     return res.json({
       alterado: true
     });
-  }
-
-  async checkPassword(email, password) {
-    const user = await User.findOne({ email }).exec();
-    return bcrypt.compare(password, user.password);
   }
 }
 export default new UserController();
