@@ -1,27 +1,27 @@
-import mongoose from "mongoose";
-import mongoosePaginate from "mongoose-paginate";
+import mongoose from 'mongoose';
+import mongoosePaginate from 'mongoose-paginate';
 
 const UserSchema = new mongoose.Schema({
   email: {
     type: String,
-    required: true,
+    required: true
   },
   password: {
     type: String,
-    required: true,
+    required: true
   },
   cpf: {
     type: Number,
-    required: true,
+    required: true
   },
   adm: {
     type: Boolean,
-    required: true,
+    required: true
   },
   createdAt: {
     type: Date,
-    default: Date.now,
-  },
+    default: Date.now
+  }
 });
 
 UserSchema.plugin(mongoosePaginate);
