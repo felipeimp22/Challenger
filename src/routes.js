@@ -24,4 +24,5 @@ routes.get('/company', UserCompany.index);
 routes.put('/company', UserCompany.update);
 routes.put('/company/:id', UserCompany.delete);
 
+
 module.exports = routes;

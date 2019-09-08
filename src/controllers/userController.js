@@ -4,6 +4,7 @@ import mongoose from 'mongoose';
 const User = mongoose.model('User');
 
 class UserController {
+  async
   async store(req, res) {
     const schema = Yup.object().shape({
       email: Yup.string()
@@ -43,7 +44,7 @@ class UserController {
       return res.status(400).json({ error: ' Validation fails' });
     }
     const { email, oldPassword } = data;
-
+    
     const user = await User.findOne({ email }).exec();
     if (!user) {
       return res.status(400).json({ error: ' user dont exist' });

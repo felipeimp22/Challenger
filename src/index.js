@@ -14,7 +14,6 @@ mongoose.connect(
   'mongodb://apphourdb:App123456@ds018538.mlab.com:18538/apphour',
   { useNewUrlParser: true }
 );
-
 requireDir('./models');
 App.use('/api', require('./routes'));
 
