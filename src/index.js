@@ -9,6 +9,7 @@ App.use(express.json());
 App.use(cors());
 
 // DB init
+// mongoose.connect('mongodb://localhost:27017/api', { useNewUrlParser: true });
 mongoose.connect(
   'mongodb://apphourdb:App123456@ds018538.mlab.com:18538/apphour',
   { useNewUrlParser: true }

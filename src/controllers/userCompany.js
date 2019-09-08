@@ -1,5 +1,6 @@
 import * as Yup from 'yup';
 import mongoose from 'mongoose';
+import bcrypt from 'bcryptjs';
 
 const Company = mongoose.model('Company');
 
@@ -23,12 +24,13 @@ class UserCompany {
     if (!(await schema.isValid(req.body))) {
       return res.status(400).json({ error: ' Validation fails' });
     }
-    const { email } = req.body;
+    const { email, password } = req.body;
     const CompanyExists = await Company.findOne({ email });
     if (CompanyExists) {
       return res.status(400).json({ error: 'Company already exists' });
     }
 
+    req.body.password = await bcrypt.hash(password, 8);
     const company = await Company.create(req.body);
     return res.json(company);
   }
@@ -48,14 +50,15 @@ class UserCompany {
     if (!(await schema.isValid(req.body))) {
       return res.status(400).json({ error: 'Validations fails ' });
     }
-    const { name, email, cnpj_or_cpf } = req.body;
+    const { name, email, cnpj_or_cpf, password } = req.body;
     const companyExists = await Company.findOne({ email });
-    console.log(companyExists);
 
     if (!companyExists) {
       return res.status(400).json({ error: 'Company not already exists' });
     }
-
+    if (password) {
+      req.body.password = await bcrypt.hash(password, 8);
+    }
     await Company.updateOne(req.body);
 
     return res.json({
@@ -76,6 +79,11 @@ class UserCompany {
     await Company.updateOne(company);
 
     return res.json({ message: 'Account deleted success!' });
+  }
+
+  async checkPassword(email, password) {
+    const user = await Company.findOne({ email });
+    return bcrypt.compare(password, user.password);
   }
 }
 export default new UserCompany();

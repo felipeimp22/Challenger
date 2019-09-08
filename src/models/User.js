@@ -14,11 +14,19 @@ const UserSchema = new mongoose.Schema({
     type: Number,
     required: true
   },
-  adm: {
+  admin: {
     type: Boolean,
-    required: true
+    default: false
+  },
+  deleted: {
+    type: Boolean,
+    default: false
   },
   createdAt: {
+    type: Date,
+    default: Date.now
+  },
+  updatedAt: {
     type: Date,
     default: Date.now
   }
