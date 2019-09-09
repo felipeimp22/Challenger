@@ -14,10 +14,6 @@ const UserSchema = new mongoose.Schema({
     type: Number,
     required: true
   },
-  admin: {
-    type: Boolean,
-    default: false
-  },
   deleted: {
     type: Boolean,
     default: false

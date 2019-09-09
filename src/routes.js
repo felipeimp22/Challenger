@@ -5,6 +5,7 @@ import UserCompany from './controllers/userCompany';
 import EventsController from './controllers/EventsController';
 import SessionController from './controllers/SessionController';
 
+import Password from './controllers/forgotPassword';
 import authMiddleware from './middlewares/auth';
 
 const routes = new Router();
@@ -12,6 +13,7 @@ const routes = new Router();
 routes.get('/', res => {
   return res.status(201).json({ message: 'API AppHour! version: 0.0.1' });
 });
+routes.put('/forgotpass', Password.forgotPassWord);
 
 routes.post('/users', UserController.store);
 routes.post('/company', UserCompany.store);
@@ -20,6 +22,8 @@ routes.post('/sessions', SessionController.store);
 routes.use(authMiddleware);
 
 routes.put('/usersUpdate', UserController.update);
+
+
 
 routes.get('/company', UserCompany.index);
 routes.put('/company', UserCompany.update);
