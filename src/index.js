@@ -28,5 +28,5 @@ App.use('/api', require('./routes'));
 // port
 const port = 3001;
 App.listen(port, () => {
-  console.log(`Server connected on port  ${port}`);
+  console.log(`Server connected on port:${port}`);
 });

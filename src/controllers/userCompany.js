@@ -84,16 +84,3 @@ class UserCompany {
   }
 }
 export default new UserCompany();
-
-//------------------------------------------------------------------------------
-// ------------------------------Insomnia Body-----------------------------------
-
-/**
- * createUser:
-  {
-	"email":"dsad@dsda.com",
-	"cpf": "1234155",
-	"password":"dasdadas",
-	"adm": false
-}
- */
