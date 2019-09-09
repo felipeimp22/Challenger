@@ -5,7 +5,6 @@ import { promisify } from 'util';
 
 import authConfig from '../config/auth';
 
-const Company = mongoose.model('Company');
 const Events = mongoose.model('Events');
 
 class EventsController {
@@ -36,14 +35,17 @@ class EventsController {
   }
 
   async update(req, res) {
-    const { id:_id }= req.params;
+    const { id: _id } = req.params;
     const authHeader = req.headers.authorization;
     if (!authHeader) {
       return res.status(401).json({ error: 'token not provided' });
     }
     const [, token] = authHeader.split(' ');
     const decoded = await promisify(jwt.verify)(token, authConfig.secret);
-    const events = await Events.findById({_id, where:{ id_admin_event: decoded.id }});
+    const events = await Events.findById({
+      _id,
+      where: { id_admin_event: decoded.id }
+    });
 
     if (!events) {
       return res.status(400).json({ error: 'You cannot change this event' });
@@ -55,7 +57,7 @@ class EventsController {
   }
 
   async delete(req, res) {
-    const { id:_id } = req.params;
+    const { id: _id } = req.params;
     const authHeader = req.headers.authorization;
     if (!authHeader) {
       return res.status(401).json({ error: 'token not provided' });
@@ -63,7 +65,10 @@ class EventsController {
     const [, token] = authHeader.split(' ');
     const decoded = await promisify(jwt.verify)(token, authConfig.secret);
 
-    const events = await Events.findById({_id, where:{ id_admin_event: decoded.id }});
+    const events = await Events.findById({
+      _id,
+      where: { id_admin_event: decoded.id }
+    });
 
     if (!events) {
       return res.status(400).json({ error: 'You cannot delete this event' });

@@ -1,37 +1,37 @@
-import nodemailer from "nodemailer";
-const send = (params) => {
+import nodemailer from 'nodemailer';
+
+const send = params => {
   return new Promise(async (resolve, reject) => {
-    var transporter = nodemailer.createTransport({
-      host: "smtp.gmail.com",
+    const transporter = nodemailer.createTransport({
+      host: 'smtp.gmail.com',
       port: 587,
       secure: false,
       requireTLS: true,
       auth: {
-        user: "felipeimperio.dev@gmail.com",
-        pass: "felipeimperio98"
+        user: 'felipeimperio.dev@gmail.com',
+        pass: 'felipeimperio98'
       },
       tls: {
         ciphers: 'SSLv3'
       }
-    })
-    var mailOptions = {
+    });
+    const mailOptions = {
       from: params.from,
       to: params.to,
       cc: params.cc,
       subject: params.subject,
       html: params.html
-    }
-    await transporter.sendMail(mailOptions, function (error) {
+    };
+    await transporter.sendMail(mailOptions, function(error) {
       if (error) {
         console.log(error);
         reject();
-      }
-      else {
-        console.log("Email enviado com sucesso")
+      } else {
+        console.log('Email enviado com sucesso');
         resolve();
       }
-    })
-  })
-}
+    });
+  });
+};
 
 export default send;

@@ -23,8 +23,6 @@ routes.use(authMiddleware);
 
 routes.put('/usersUpdate', UserController.update);
 
-
-
 routes.get('/company', UserCompany.index);
 routes.put('/company', UserCompany.update);
 routes.put('/company/:id', UserCompany.delete);
