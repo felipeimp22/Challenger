@@ -61,7 +61,7 @@ class SessionController {
         })
       });
     }
-    return res.send();
+    return res.status(401).json({ message: 'Something is wrong' });
   }
 }
 

@@ -1,9 +1,11 @@
 import { Router } from 'express';
 
+import SessionController from './controllers/SessionController';
 import UserController from './controllers/userController';
 import UserCompany from './controllers/userCompany';
+
 import EventsController from './controllers/EventsController';
-import SessionController from './controllers/SessionController';
+import SubscritionEvents from './controllers/SubscriptionEventController';
 
 import Password from './controllers/forgotPassword';
 import authMiddleware from './middlewares/auth';
@@ -31,5 +33,8 @@ routes.post('/events', EventsController.store);
 routes.get('/events', EventsController.index);
 routes.put('/events/:id', EventsController.update);
 routes.put('/eventsDeleted/:id', EventsController.delete);
+
+routes.post('/subscription/:idEvent', SubscritionEvents.store);
+routes.put('/canceledSubscription/:idEvent', SubscritionEvents.update);
 
 module.exports = routes;
