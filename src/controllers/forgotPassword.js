@@ -1,5 +1,6 @@
 import * as Yup from 'yup';
 import mongoose from 'mongoose';
+import bcrypt from "bcryptjs"
 
 import send from '../config/sendMail';
 
@@ -47,6 +48,8 @@ class Password {
 
     if (checkEmailUser !== null) {
       checkEmailUser.password = passwordRandom;
+      console.log("------------>", checkEmailUser.password)
+      checkEmailUser.password = await bcrypt.hash(checkEmailUser.password, 8)
       await checkEmailUser.save();
       send({
         from: 'felipeimperio.dev@gmail.com',
@@ -65,7 +68,9 @@ class Password {
       });
     }
     if (checkEmailCompany !== null) {
+
       checkEmailCompany.password = passwordRandom;
+      checkEmailCompany.password = await bcrypt.hash(checkEmailCompany.password, 8)
       await checkEmailCompany.save();
       send({
         from: 'felipeimperio.dev@gmail.com',
