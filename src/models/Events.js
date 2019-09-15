@@ -1,11 +1,23 @@
-import mongoose from 'mongoose';
+import mongoose, { mongo } from 'mongoose';
 import mongoosePaginate from 'mongoose-paginate';
+import { type } from 'os';
+const Schema = mongoose.Schema;
+
+const ListSchema = new mongoose.Schema({
+  title: {
+    type: String,
+  },
+  description: {
+    type: String,
+  }
+});
 
 const EventsSchema = new mongoose.Schema({
   name_event: {
     type: String,
     required: true
   },
+  list: [ListSchema],
   id_admin_event: {
     type: String,
     required: true
@@ -34,6 +46,11 @@ const EventsSchema = new mongoose.Schema({
     type: Boolean,
     default: false
   },
+
+  config: [{
+    type: String,
+  }
+  ],
   createdAt: {
     type: Date,
     default: Date.now
