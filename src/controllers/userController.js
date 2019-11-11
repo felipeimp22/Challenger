@@ -10,18 +10,26 @@ class UserController {
       email: Yup.string()
         .email()
         .required(),
-      cpf: Yup.number().required(),
       password: Yup.string()
         .required()
         .min(6)
     });
     if (!(await schema.isValid(req.body))) {
-      return res.status(400).json({ error: ' Validation fails' });
+      return res.status(400).json({
+        error: ' Validation fails'
+      });
     }
-    const { email, password } = req.body;
-    const userExists = await User.findOne({ email });
+    const {
+      email,
+      password
+    } = req.body;
+    const userExists = await User.findOne({
+      email
+    });
     if (userExists) {
-      return res.status(400).json({ error: 'User already exists' });
+      return res.status(400).json({
+        error: 'User already exists'
+      });
     }
     req.body.password = await bcrypt.hash(password, 8);
     const user = await User.create(req.body);
@@ -30,33 +38,55 @@ class UserController {
 
   // ///////////////////////////////////////////////////////////////////////
   async update(req, res) {
-    const data = req.body;
+    const data = req.body
     const schema = Yup.object().shape({
       email: Yup.string().email(),
-      cpf: Yup.number().required(),
       password: Yup.string()
-        .required()
-        .min(6),
-      confirmpassword: Yup.string().when('password', (password, field) =>
+        .min(6)
+        .when('oldPassword', (oldPassword, field) =>
+          oldPassword ? field.required() : field
+        ),
+      confirmPassword: Yup.string().when('password', (password, field) =>
         password ? field.required().oneOf([Yup.ref('password')]) : field
-      )
+      ),
     });
     if (!(await schema.isValid(data))) {
-      return res.status(400).json({ error: ' Validation fails' });
+      return res.status(500).json({
+        error: ' Validation fails'
+      });
     }
-    const { email, oldPassword } = data;
+    const {
+      email
+    } = data;
 
-    const user = await User.findOne({ email }).exec();
-    if (!user) {
-      return res.status(400).json({ error: ' user dont exist' });
-    }
-    if (oldPassword && !(await user.checkPassword(oldPassword))) {
-      return res.status(401).json({ error: ' password does not match' });
-    }
-    await user.update(data);
+    const checkEmailUser = await User.findOne({
+      "email": email
+    }).exec();
+    checkEmailUser.password = data.password;
+    console.log("------------>", checkEmailUser.password)
+    checkEmailUser.password = await bcrypt.hash(checkEmailUser.password, 8)
+
+    checkEmailUser.updatedAt = Date.now()
+    checkEmailUser.lastLogin = Date.now()
+
+    await checkEmailUser.save();
+
+
+    await checkEmailUser.save()
+
     return res.json({
-      alterado: true
+      alterado: true,
+      "email": email
     });
+  }
+
+  async find(req, res) {
+    const users = await User.find();
+    return res.json({
+      users
+    });
+
+
   }
 }
 
