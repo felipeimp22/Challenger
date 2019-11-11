@@ -3,7 +3,7 @@
 
 ## Briefing 
 Desafio de criação de sistema,
-sitema começou a ser desenvolvido no dia 10/11/19 as 23:00
+O sistema começou a ser desenvolvido no dia 10/11/19 as 23:20
 e foi terminado dia 11/11/19 as 00:40.
 
 nesse programa foi utilizado:
@@ -33,8 +33,6 @@ Para utilizar sintex import e export no back-end
 serverDB local para persistencia
 ## `yup` 
 yup para validações rapidas
-## `axios` 
-serve para requisitar outras api
 ## require-dir 
 serve para pegar todas as pastas do models de uma vez sem precisar reutilizar o require
 
